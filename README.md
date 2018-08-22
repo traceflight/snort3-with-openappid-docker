@@ -3,13 +3,13 @@ Dockerfile of snort3 with openappid
 
 ## 组件及版本
 
-组件 | 版本
-- | :-
-snort|3.0.0
-daq|2.2.2
-snort extra|1.0.0
-openappid|8373
-rules|community
+|组件|版本|
+|:-|:-|
+|snort|3.0.0|
+|daq|2.2.2|
+|snort extra|1.0.0|
+|openappid|8373|
+|rules|community|
 
 ## 使用方法
 
