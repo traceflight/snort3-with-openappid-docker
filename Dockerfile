@@ -79,14 +79,15 @@ RUN cd /tmp/snort && \
 RUN cd /tmp/snort && \
     wget https://www.snort.org/downloads/openappid/${OPENAPPID_VERSION} -O snort-openappid.tar.gz && \
     tar -zxvf snort-openappid.tar.gz && \
-    cp -R odp /usr/local/lib && \
-    sed -i "s/--app_detector_dir = 'directory to load appid detectors from'/app_detector_dir = '\/usr\/local\/lib',/g" /usr/local/etc/snort/snort.lua
+    mkdir -p /usr/local/cisco/apps && \
+    cp -R odp /usr/local/cisco/apps && \
+    sed -i "s/--app_detector_dir = 'directory to load appid detectors from'/app_detector_dir = '\/usr\/local\/cisco\/apps',/g" /usr/local/etc/snort/snort.lua
 
 # Cleanup.
 RUN yum clean all && \
-    rm -rf /var/log/* || true \
-    rm -rf /var/tmp/* \
-    cd / \
+    cd / && \
+    rm -rf /var/log/* || true && \
+    rm -rf /var/tmp/* && \
     rm -rf /tmp/*
 
 RUN snort -V
