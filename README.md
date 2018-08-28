@@ -39,11 +39,13 @@ $ docker run -it --name snort --net=host \
 
 ### 分析Pcap数据
 
+运行snort并挂载待分析文件
+
 ```
 $ docker run -it --rm -v path/to/pcapdir:/data traceflight/snort3-with-openappid-docker /bin/bash
 ```
 
-* 分析数据
+分析数据
 ```
 $ snort -c /usr/local/etc/snort/snort.lua -r /data/pcapfile.pcap 
 ```
