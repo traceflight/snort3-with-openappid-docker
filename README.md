@@ -47,7 +47,48 @@ $ docker run -it --rm -v path/to/pcapdir:/data traceflight/snort3-with-openappid
 
 分析数据
 ```
-$ snort -c /usr/local/etc/snort/snort.lua -r /data/pcapfile.pcap 
+$ snort -r /data/pcapfile.pcap 
+```
+
+## 修改配置和规则
+
+配置文件和规则文件分别放置在项目中`snort/etc`和`snort/rules`文件夹内。如需要进行修改，可clone本项目，然后对相应文件修改后，将`snort`文件夹挂载到容器内的`/usr/local/etc/snort/`路径下。
+
+步骤如下：
+
+* 下载镜像
+
+```
+$ docker pull traceflight/snort3-with-openappid-docker
+```
+
+* clone本项目
+
+```
+$ git clone https://github.com/traceflight/snort3-with-openappid-docker.git
+```
+
+* 创建规则
+
+在`snort/rules`文件夹内创建规则文件`local.rules`，需要在`snort/etc/snort.lua`配置文件中第6个部分（6. configure detection）中的`rules`变量内添加一行`include = $RULE_PATH/local.rules`。
+
+* 挂载文件 
+
+运行时挂载
+
+```
+$ docker run -it -v \`pwd\`/snort/:/usr/local/etc/snort/ traceflight/snort3-with-openappid-docker /bin/bash
+```
+
+或创建Dockerfile生成新的镜像
+
+```
+FROM traceflight/snort3-with-openappid-docker:latest
+MAINTAINER yourname
+
+ADD snort /usr/local/etc/snort
+
+RUN snort -V
 ```
 
 ## 使用中可能出现错误提示
