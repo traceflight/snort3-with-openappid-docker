@@ -13,6 +13,8 @@ ENV LD_LIBRARY_PATH /usr/local/lib
 ENV LUA_PATH /usr/local/include/snort/lua/\?.lua\;\;
 ENV SNORT_LUA_PATH /usr/local/etc/snort
 
+ADD snort /usr/local/etc/snort
+
 # install epel-release
 RUN yum -y install epel-release wget gcc automake autoconf libtool make gcc-c++ && \
     yum clean all && \
@@ -66,22 +68,19 @@ RUN cd /home/snort/apps && \
     make && \
     make install
 
-# add rules
+# update community rules
 RUN cd /home/snort/apps && \
     wget https://www.snort.org/downloads/community/snort3-community-rules.tar.gz -O snort3-community-rules.tar.gz && \
     tar -xvf snort3-community-rules.tar.gz && \
-    mkdir /usr/local/etc/snort/rules/ && \
     cp snort3-community-rules/snort3-community.rules /usr/local/etc/snort/rules/ && \
-    cp snort3-community-rules/sid-msg.map /usr/local/etc/snort/rules/ && \
-    cp /usr/local/include/snort/lua/snort_config.lua /usr/local/etc/snort/
+    cp snort3-community-rules/sid-msg.map /usr/local/etc/snort/rules/
 
 # install openappid
 RUN cd /home/snort/apps && \
     wget https://www.snort.org/downloads/openappid/${OPENAPPID_VERSION} -O snort-openappid.tar.gz && \
     tar -zxvf snort-openappid.tar.gz && \
     mkdir -p /usr/local/cisco/apps && \
-    cp -R odp /usr/local/cisco/apps && \
-    sed -i "s/--app_detector_dir = 'directory to load appid detectors from'/app_detector_dir = '\/usr\/local\/cisco\/apps',/g" /usr/local/etc/snort/snort.lua
+    cp -R odp /usr/local/cisco/apps
 
 # Cleanup.
 RUN yum clean all && \
