@@ -42,7 +42,8 @@ $ docker run -it --name snort --net=host \
 运行snort并挂载待分析文件
 
 ```
-$ docker run -it --rm -v path/to/pcapdir:/data traceflight/snort3-with-openappid-docker /bin/bash
+$ docker run -it --rm -v path/to/pcapdir:/data \
+    traceflight/snort3-with-openappid-docker /bin/bash
 ```
 
 分析数据
@@ -77,7 +78,8 @@ $ git clone https://github.com/traceflight/snort3-with-openappid-docker.git
 运行时挂载
 
 ```
-$ docker run -it -v \`pwd\`/snort/:/usr/local/etc/snort/ traceflight/snort3-with-openappid-docker /bin/bash
+$ docker run -it -v `pwd`/snort/:/usr/local/etc/snort/ \
+    traceflight/snort3-with-openappid-docker /bin/bash
 ```
 
 或创建Dockerfile生成新的镜像
