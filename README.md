@@ -52,13 +52,13 @@ $ snort -c /usr/local/etc/snort/snort.lua -r /data/pcapfile.pcap
 
 ## 使用中可能出现错误提示
 
-* ERROR: Cannot decode data link type 113 *
+**ERROR: Cannot decode data link type 113**
 
 原因：为Wireshark在对Linux进行抓包时，若对any接口进行抓包，使用的格式为[Linux cooked-mode capture (SLL)](https://wiki.wireshark.org/SLL)，snort不支持该格式。
 
 解决方法：不对any接口进行抓包，对指定接口如eth0抓包即可。
 
-* SIOETHTOOL(ETHTOOL_GUFO) ioctl failed: Operation not permitted *
+**SIOETHTOOL(ETHTOOL_GUFO) ioctl failed: Operation not permitted**
 
 原因：容器对监听本地网卡的权限不足。
 
