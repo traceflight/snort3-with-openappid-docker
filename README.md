@@ -13,13 +13,31 @@ Dockerfile of snort3 with openappid
 
 ## 使用方法
 
-* 直接下载镜像
+### 获取镜像
 
 ```
 $ docker pull traceflight/snort3-with-openappid-docker
 ```
 
-* 挂载本地路径分析pcap文件
+### 监听主机网卡
+
+首先获取待监听网卡名称：
+
+```
+$ ip a
+```
+
+使用docker的host模式监听指定网卡（假设为eth0）：
+
+```
+$ docker run -it --name snort --net=host \
+    --cap-add=NET_ADMIN \
+    traceflight/snort3-with-openappid-docker \
+    snort -c /usr/local/etc/snort/snort.lua \
+    -i eth0
+```
+
+### 分析Pcap数据
 
 ```
 $ docker run -it --rm -v path/to/pcapdir:/data traceflight/snort3-with-openappid-docker /bin/bash
@@ -30,10 +48,16 @@ $ docker run -it --rm -v path/to/pcapdir:/data traceflight/snort3-with-openappid
 $ snort -c /usr/local/etc/snort/snort.lua -r /data/pcapfile.pcap 
 ```
 
-## 注意事项
+## 使用中可能出现错误提示
 
-使用中可能出现错误提示：`ERROR: Cannot decode data link type 113`
+1. `ERROR: Cannot decode data link type 113`
 
 原因：为Wireshark在对Linux进行抓包时，若对any接口进行抓包，使用的格式为[Linux cooked-mode capture (SLL)](https://wiki.wireshark.org/SLL)，snort不支持该格式。
 
 解决方法：不对any接口进行抓包，对指定接口如eth0抓包即可。
+
+2. `SIOETHTOOL(ETHTOOL_GUFO) ioctl failed: Operation not permitted`
+
+原因：容器对监听本地网卡的权限不足。
+
+解决方法：在docker运行时，添加参数`--cap-add=NET_ADMIN`。
