@@ -27,13 +27,16 @@ $ docker pull traceflight/snort3-with-openappid-docker
 $ ip a
 ```
 
-使用docker的host模式监听指定网卡（假设为eth0）：
+使用docker的host模式监听指定网卡（假设为eth0），挂载本地路径（`/var/log/snort`）存放日志信息：
 
 ```
 $ docker run -it --name snort --net=host \
     --cap-add=NET_ADMIN \
+    -v /var/log/snort/:/var/log/snort/ \
     traceflight/snort3-with-openappid-docker \
     snort -c /usr/local/etc/snort/etc/snort.lua \
+    -A fast \
+    -l /var/log/snort \
     -i eth0
 ```
 
