@@ -56,6 +56,8 @@ $ snort -c /usr/local/etc/snort/etc/snort.lua -r /data/pcapfile.pcap
 
 ## 修改配置和规则
 
+### 使用自定义规则
+
 配置文件和规则文件分别放置在项目中`snort/etc`和`snort/rules`文件夹内。如需要进行修改，可clone本项目，然后对相应文件修改后，将`snort`文件夹挂载到容器内的`/usr/local/etc/snort/`路径下。
 
 步骤如下：
@@ -94,6 +96,18 @@ MAINTAINER yourname
 ADD snort /usr/local/etc/snort
 
 RUN snort -V
+```
+
+### 使用snort注册版规则
+
+在snort官方注册后，可下载注册版规则。将规则文件解压缩后，放在本项目`snort`文件夹内的对应文件夹中，然后修改`etc/snort.lua`文件中的`appid`变量值，指定appid路径。最后将`snort`文件夹挂载到`/usr/local/etc/snort`路径下即可。
+
+```
+appid =
+{
+    -- appid requires this to use appids in rules
+    app_detector_dir = '/usr/local/cisco/apps',
+}
 ```
 
 ## 使用中可能出现错误提示
