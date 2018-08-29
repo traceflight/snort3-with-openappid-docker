@@ -71,7 +71,7 @@ $ git clone https://github.com/traceflight/snort3-with-openappid-docker.git
 
 * 创建规则
 
-在`snort/rules`文件夹内创建规则文件`local.rules`，需要在`snort/etc/snort.lua`配置文件中第6个部分（6. configure detection）中的`rules`变量内添加一行`include = $RULE_PATH/local.rules`。
+在`snort/rules`文件夹内创建规则文件`local.rules`，需要在`snort/etc/snort.lua`配置文件中第6个部分（6. configure detection）中的`rules`变量内添加一行`include $RULE_PATH/local.rules`。
 
 * 挂载文件 
 
