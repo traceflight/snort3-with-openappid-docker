@@ -195,6 +195,9 @@ ips =
     -- use include for rules files; be sure to set your path
     -- note that rules files can include other rules files
     --include = 'snort3_community.rules'
+    
+    -- The following include syntax is only valid for BUILD_243 (13-FEB-2018) and later
+    -- RULE_PATH is typically set in snort_defaults.lua
 
     rules = [[
 
