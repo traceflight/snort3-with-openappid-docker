@@ -198,7 +198,7 @@ ips =
 
     rules = [[
 
-        include $RULE_PATH/snort3_community.rules
+        include $RULE_PATH/snort3-community.rules
 
     ]]
 }
