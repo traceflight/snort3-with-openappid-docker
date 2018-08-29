@@ -33,7 +33,7 @@ $ ip a
 $ docker run -it --name snort --net=host \
     --cap-add=NET_ADMIN \
     traceflight/snort3-with-openappid-docker \
-    snort -c /usr/local/etc/snort/snort.lua \
+    snort -c /usr/local/etc/snort/etc/snort.lua \
     -i eth0
 ```
 
@@ -48,7 +48,7 @@ $ docker run -it --rm -v path/to/pcapdir:/data \
 
 分析数据
 ```
-$ snort -r /data/pcapfile.pcap 
+$ snort -c /usr/local/etc/snort/etc/snort.lua -r /data/pcapfile.pcap 
 ```
 
 ## 修改配置和规则
