@@ -34,7 +34,7 @@ $ docker run -it --name snort --net=host \
     --cap-add=NET_ADMIN \
     -v /var/log/snort/:/var/log/snort/ \
     traceflight/snort3-with-openappid-docker \
-    snort -c /usr/local/etc/snort/etc/snort.lua \
+    snort -c /usr/local/snort/etc/snort/etc/snort.lua \
     -A fast \
     -l /var/log/snort \
     -i eth0
@@ -51,14 +51,14 @@ $ docker run -it --rm -v path/to/pcapdir:/data \
 
 分析数据
 ```
-$ snort -c /usr/local/etc/snort/etc/snort.lua -r /data/pcapfile.pcap 
+$ snort -c /usr/local/snort/etc/snort/etc/snort.lua -r /data/pcapfile.pcap 
 ```
 
 ## 修改配置和规则
 
 ### 使用自定义规则
 
-配置文件和规则文件分别放置在项目中`snort/etc`和`snort/rules`文件夹内。如需要进行修改，可clone本项目，然后对相应文件修改后，将`snort`文件夹挂载到容器内的`/usr/local/etc/snort/`路径下。
+配置文件和规则文件分别放置在项目中`snort/etc`和`snort/rules`文件夹内。如需要进行修改，可clone本项目，然后对相应文件修改后，将`snort`文件夹挂载到容器内的`/usr/local/snort/etc/snort/`路径下。
 
 步骤如下：
 
@@ -83,7 +83,7 @@ $ git clone https://github.com/traceflight/snort3-with-openappid-docker.git
 运行时挂载
 
 ```
-$ docker run -it -v `pwd`/snort/:/usr/local/etc/snort/ \
+$ docker run -it -v `pwd`/snort/:/usr/local/snort/etc/snort/ \
     traceflight/snort3-with-openappid-docker /bin/bash
 ```
 
@@ -93,20 +93,20 @@ $ docker run -it -v `pwd`/snort/:/usr/local/etc/snort/ \
 FROM traceflight/snort3-with-openappid-docker:latest
 MAINTAINER yourname
 
-ADD snort /usr/local/etc/snort
+ADD snort /usr/local/snort/etc/snort
 
 RUN snort -V
 ```
 
 ### 使用snort注册版规则
 
-在snort官方注册后，可下载注册版规则。将规则文件解压缩后，放在本项目`snort`文件夹内的对应文件夹中，然后修改`etc/snort.lua`文件中的`appid`变量值，指定appid路径。最后将`snort`文件夹挂载到`/usr/local/etc/snort`路径下即可。
+在snort官方注册后，可下载注册版规则。将规则文件解压缩后，放在本项目`snort`文件夹内的对应文件夹中，然后修改`etc/snort.lua`文件中的`appid`变量值，指定appid路径。最后将`snort`文件夹挂载到`/usr/local/snort/etc/snort`路径下即可。
 
 ```
 appid =
 {
     -- appid requires this to use appids in rules
-    app_detector_dir = '/usr/local/cisco/apps',
+    app_detector_dir = '/usr/local/snort/appid',
 }
 ```
 
