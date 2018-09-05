@@ -17,7 +17,8 @@ ADD etc /usr/local/snort/etc
 ADD rules /usr/local/snort/rules
 
 # install epel-release
-RUN yum -y update ca-certificates && \
+RUN mkdir -p /home/snort/apps && \
+    yum -y update ca-certificates && \
     yum -y install epel-release wget gcc git automake autoconf libtool make gcc-c++ && \
     yum clean all && \
     yum makecache && \
