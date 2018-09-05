@@ -8,8 +8,8 @@ ENV OPENAPPID_VERSION 8373
 ENV PKG_CONFIG_VERSION 0.29.2
 
 ENV PKG_CONFIG /usr/local/bin/pkg-config
-ENV PKG_CONFIG_PATH /usr/share/pkgconfig:/usr/lib64/pkgconfig
-ENV LD_LIBRARY_PATH /usr/local/lib
+ENV PKG_CONFIG_PATH /usr/local/snort/lib/pkgconfig:/usr/local/snort/lib64/pkgconfig
+ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/usr/lib:/usr/local/lib
 ENV LUA_PATH /usr/local/include/snort/lua/\?.lua\;\;
 ENV SNORT_LUA_PATH /usr/local/etc/snort
 
@@ -17,27 +17,17 @@ ADD snort /usr/local/etc/snort
 
 # install epel-release
 RUN yum -y update ca-certificates && \
-    yum -y install epel-release wget gcc automake autoconf libtool make gcc-c++ && \
+    yum -y install epel-release wget gcc git automake autoconf libtool make gcc-c++ && \
     yum clean all && \
     yum makecache && \
     yum -y update
 
-# install pkgconfig
-RUN mkdir -p /home/snort/apps && \
-    cd /home/snort/apps && \
-    wget http://pkgconfig.freedesktop.org/releases/pkg-config-${PKG_CONFIG_VERSION}.tar.gz -O pkg-config-${PKG_CONFIG_VERSION}.tar.gz && \
-    tar -zxvf pkg-config-${PKG_CONFIG_VERSION}.tar.gz && \
-    cd pkg-config-${PKG_CONFIG_VERSION} && \
-    ./configure --with-internal-glib && \
-    make && \
-    make install
-
 # install requirements
-RUN yum install -y libdnet libdnet-devel hwloc hwloc-devel luajit luajit-devel openssl openssl-devel libpcap libpcap-devel pcre pcre-devel flex bison cmake3 lzma xz-devel && \
+RUN yum -y install libdnet-devel hwloc-devel luajit-devel openssl-devel  zlib-devel pkgconfig libpcap-devel zlib-devel pcre-devel lzma xz-devel bison flex cmake3 && \
     ldconfig
 
 # install nfq
-RUN yum install -y libnetfilter_queue libnetfilter_queue-devel
+RUN yum install -y libnetfilter_queue-devel
 
 # install daq
 RUN cd /home/snort/apps && \
@@ -51,22 +41,21 @@ RUN cd /home/snort/apps && \
 
 # install snort3
 RUN cd /home/snort/apps && \
-    wget https://www.snort.org/downloads/snortplus/snort-${SNORT_VERSION}-beta.tar.gz -O snort-${SNORT_VERSION}-beta.tar.gz && \
-    tar -zxvf snort-${SNORT_VERSION}-beta.tar.gz && \
-    cd snort-${SNORT_VERSION}/ && \
-    cmake3 -DCMAKE_INSTALL_PREFIX=/usr/local && \
-    make clean && \
-    make && \
-    make install
+    git clone https://github.com/snort3/snort3.git && \
+    cd snort3/ && \
+    ./configure_cmake.sh --prefix=/usr/local/snort && \
+    cd build && \
+    make -j 8 && \
+    make install && \
+    ldconfig
 
 # install snort_extra
 RUN cd /home/snort/apps && \
-    wget https://www.snort.org/downloads/snortplus/snort_extra-${SNORT_EXTRA_VERSION}-beta.tar.gz -O snort_extra-${SNORT_EXTRA_VERSION}-beta.tar.gz && \
-    tar -zxvf snort_extra-${SNORT_EXTRA_VERSION}-beta.tar.gz && \
-    cd snort_extra-${SNORT_EXTRA_VERSION} && \
-    cmake3 -DCMAKE_INSTALL_PREFIX=/usr/local && \
-    make clean && \
-    make && \
+    git clone git://github.com/snortadmin/snort3_extra.git && \
+    cd snort_extra && \
+    ./configure_cmake.sh --prefix=/usr/local/snort/extra && \
+    cd build && \
+    make -j 8 && \
     make install
 
 # update community rules
