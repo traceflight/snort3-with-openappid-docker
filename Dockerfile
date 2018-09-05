@@ -7,12 +7,14 @@ ENV SNORT_EXTRA_VERSION 1.0.0
 ENV OPENAPPID_VERSION 8373
 
 ENV PKG_CONFIG /usr/bin/pkg-config
-ENV PKG_CONFIG_PATH /usr/share/pkgconfig:/usr/lib64/pkgconfig
+ENV PKG_CONFIG_PATH /usr/share/pkgconfig:/usr/lib64/pkgconfig:/usr/local/snort/lib/pkgconfig:/usr/local/snort/lib64/pkgconfig
 ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/usr/lib:/usr/local/lib
 ENV LUA_PATH /usr/local/snort/include/snort/lua/\?.lua\;\;
 ENV SNORT_LUA_PATH /usr/local/snort/etc/snort
+ENC PATH $PATH:/usr/local/snort/bin
 
-ADD snort /usr/local/snort/etc/snort
+ADD etc /usr/local/snort/etc
+ADD rules /usr/local/snort/rules
 
 # install epel-release
 RUN yum -y update ca-certificates && \
@@ -50,8 +52,8 @@ RUN cd /home/snort/apps && \
 # install snort_extra
 RUN cd /home/snort/apps && \
     git clone git://github.com/snortadmin/snort3_extra.git && \
-    cd snort_extra && \
-    cmake3 -DCMAKE_INSTALL_PREFIX=/usr/local/snort_extra && \
+    cd snort3_extra && \
+    cmake3 -DCMAKE_INSTALL_PREFIX=/usr/local/snort/extra && \
     make clean && \
     make && \
     make install
@@ -60,8 +62,8 @@ RUN cd /home/snort/apps && \
 RUN cd /home/snort/apps && \
     wget https://www.snort.org/downloads/community/snort3-community-rules.tar.gz -O snort3-community-rules.tar.gz && \
     tar -xvf snort3-community-rules.tar.gz && \
-    cp snort3-community-rules/snort3-community.rules /usr/local/snort/etc/snort/rules/ && \
-    cp snort3-community-rules/sid-msg.map /usr/local/snort/etc/snort/rules/
+    cp snort3-community-rules/snort3-community.rules /usr/local/snort/rules/rules/ && \
+    cp snort3-community-rules/sid-msg.map /usr/local/snort/rules/rules/
 
 # install openappid
 RUN cd /home/snort/apps && \
