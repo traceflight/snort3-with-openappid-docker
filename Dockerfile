@@ -10,7 +10,7 @@ ENV PKG_CONFIG /usr/bin/pkg-config
 ENV PKG_CONFIG_PATH /usr/share/pkgconfig:/usr/lib64/pkgconfig:/usr/local/snort/lib/pkgconfig:/usr/local/snort/lib64/pkgconfig
 ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/usr/lib:/usr/local/lib
 ENV LUA_PATH /usr/local/snort/include/snort/lua/\?.lua\;\;
-ENV SNORT_LUA_PATH /usr/local/snort/etc/snort
+ENV SNORT_LUA_PATH /usr/local/snort/etc/
 ENV PATH $PATH:/usr/local/snort/bin
 
 ADD etc /usr/local/snort/etc
