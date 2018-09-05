@@ -8,12 +8,12 @@ ENV OPENAPPID_VERSION 8373
 ENV PKG_CONFIG_VERSION 0.29.2
 
 ENV PKG_CONFIG /usr/local/bin/pkg-config
-ENV PKG_CONFIG_PATH /usr/local/snort/lib/pkgconfig:/usr/local/snort/lib64/pkgconfig
-ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/usr/lib:/usr/local/lib
-ENV LUA_PATH /usr/local/include/snort/lua/\?.lua\;\;
-ENV SNORT_LUA_PATH /usr/local/etc/snort
+ENV PKG_CONFIG_PATH /usr/share/pkgconfig:/usr/lib64/pkgconfig:/usr/local/snort/lib/pkgconfig:/usr/local/snort/lib64/pkgconfig
+ENV LD_LIBRARY_PATH /usr/lib:/usr/local/lib
+ENV LUA_PATH /usr/local/snort/include/snort/lua/\?.lua\;\;
+ENV SNORT_LUA_PATH /usr/local/snort/etc/snort
 
-ADD snort /usr/local/etc/snort
+ADD snort /usr/local/snort/etc/snort
 
 # install epel-release
 RUN yum -y update ca-certificates && \
@@ -22,13 +22,32 @@ RUN yum -y update ca-certificates && \
     yum makecache && \
     yum -y update
 
+# install pkgconfig
+RUN mkdir -p /home/snort/apps && \
+    cd /home/snort/apps && \
+    wget http://pkgconfig.freedesktop.org/releases/pkg-config-${PKG_CONFIG_VERSION}.tar.gz -O pkg-config-${PKG_CONFIG_VERSION}.tar.gz && \
+    tar -zxvf pkg-config-${PKG_CONFIG_VERSION}.tar.gz && \
+    cd pkg-config-${PKG_CONFIG_VERSION} && \
+    ./configure --with-internal-glib && \
+    make && \
+    make install
+    
 # install requirements
-RUN yum -y install libdnet-devel hwloc-devel luajit-devel openssl-devel  zlib-devel pkgconfig libpcap-devel zlib-devel pcre-devel lzma xz-devel bison flex cmake3 && \
+RUN yum -y install libdnet-devel hwloc-devel luajit-devel openssl-devel zlib-devel libpcap-devel zlib-devel pcre-devel lzma xz-devel bison flex cmake3 && \
     ldconfig
 
 # install nfq
 RUN yum install -y libnetfilter_queue-devel
 
+# install cmake
+RUN cd /home/snort/apps && \
+    wget https://cmake.org/files/v3.12/cmake-3.12.1.tar.gz && \
+    tar xf cmake-3.12.1.tar.gz && \
+    cd cmake-3.12.1/ && \
+    ./configure && \
+    make && \
+    make install
+    
 # install daq
 RUN cd /home/snort/apps && \
     wget https://www.snort.org/downloads/snortplus/daq-${DAQ_VERSION}.tar.gz -O daq-${DAQ_VERSION}.tar.gz && \
@@ -45,7 +64,7 @@ RUN cd /home/snort/apps && \
     cd snort3/ && \
     ./configure_cmake.sh --prefix=/usr/local/snort && \
     cd build && \
-    make -j 8 && \
+    make && \
     make install && \
     ldconfig
 
@@ -55,15 +74,15 @@ RUN cd /home/snort/apps && \
     cd snort_extra && \
     ./configure_cmake.sh --prefix=/usr/local/snort/extra && \
     cd build && \
-    make -j 8 && \
+    make && \
     make install
 
 # update community rules
 RUN cd /home/snort/apps && \
     wget https://www.snort.org/downloads/community/snort3-community-rules.tar.gz -O snort3-community-rules.tar.gz && \
     tar -xvf snort3-community-rules.tar.gz && \
-    cp snort3-community-rules/snort3-community.rules /usr/local/etc/snort/rules/ && \
-    cp snort3-community-rules/sid-msg.map /usr/local/etc/snort/rules/
+    cp snort3-community-rules/snort3-community.rules /usr/local/snort/etc/snort/rules/ && \
+    cp snort3-community-rules/sid-msg.map /usr/local/snort/etc/snort/rules/
 
 # install openappid
 RUN cd /home/snort/apps && \
