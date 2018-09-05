@@ -11,7 +11,7 @@ ENV PKG_CONFIG_PATH /usr/share/pkgconfig:/usr/lib64/pkgconfig:/usr/local/snort/l
 ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/usr/lib:/usr/local/lib
 ENV LUA_PATH /usr/local/snort/include/snort/lua/\?.lua\;\;
 ENV SNORT_LUA_PATH /usr/local/snort/etc/snort
-ENC PATH $PATH:/usr/local/snort/bin
+ENV PATH $PATH:/usr/local/snort/bin
 
 ADD etc /usr/local/snort/etc
 ADD rules /usr/local/snort/rules
