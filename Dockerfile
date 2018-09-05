@@ -16,7 +16,8 @@ ENV SNORT_LUA_PATH /usr/local/etc/snort
 ADD snort /usr/local/etc/snort
 
 # install epel-release
-RUN yum -y install epel-release wget gcc automake autoconf libtool make gcc-c++ && \
+RUN yum -y update ca-certificates && \
+    yum -y install epel-release wget gcc automake autoconf libtool make gcc-c++ && \
     yum clean all && \
     yum makecache && \
     yum -y update
