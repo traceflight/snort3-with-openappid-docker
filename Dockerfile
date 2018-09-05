@@ -50,9 +50,9 @@ RUN cd /home/snort/apps && \
 
 # install snort3
 RUN cd /home/snort/apps && \
-    wget https://www.snort.org/downloads/snortplus/snort-${SNORT_VERSION}-243-cmake.tar.gz -O snort-${SNORT_VERSION}-243-cmake.tar.gz && \
-    tar -zxvf snort-${SNORT_VERSION}-243-cmake.tar.gz && \
-    cd snort-${SNORT_VERSION}-/ && \
+    wget https://www.snort.org/downloads/snortplus/snort-${SNORT_VERSION}-beta.tar.gz -O snort-${SNORT_VERSION}-beta.tar.gz && \
+    tar -zxvf snort-${SNORT_VERSION}-beta.tar.gz && \
+    cd snort-${SNORT_VERSION}/ && \
     cmake3 -DCMAKE_INSTALL_PREFIX=/usr/local && \
     make clean && \
     make && \
@@ -60,9 +60,9 @@ RUN cd /home/snort/apps && \
 
 # install snort_extra
 RUN cd /home/snort/apps && \
-    wget https://www.snort.org/downloads/snortplus/snort_extra-${SNORT_EXTRA_VERSION}-243-cmake.tar.gz -O snort_extra-${SNORT_EXTRA_VERSION}-243-cmake.tar.gz && \
-    tar -zxvf snort_extra-${SNORT_EXTRA_VERSION}-243-cmake.tar.gz && \
-    cd snort_extra-${SNORT_EXTRA_VERSION}-a4 && \
+    wget https://www.snort.org/downloads/snortplus/snort_extra-${SNORT_EXTRA_VERSION}-beta.tar.gz -O snort_extra-${SNORT_EXTRA_VERSION}-beta.tar.gz && \
+    tar -zxvf snort_extra-${SNORT_EXTRA_VERSION}-beta.tar.gz && \
+    cd snort_extra-${SNORT_EXTRA_VERSION} && \
     cmake3 -DCMAKE_INSTALL_PREFIX=/usr/local && \
     make clean && \
     make && \
