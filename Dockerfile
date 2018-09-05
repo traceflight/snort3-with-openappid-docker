@@ -52,7 +52,7 @@ RUN cd /home/snort/apps && \
 
 # install snort_extra
 RUN cd /home/snort/apps && \
-    git clone git://github.com/snortadmin/snort3_extra.git && \
+    git clone https://github.com/snort3/snort3_extra.git && \
     cd snort3_extra && \
     cmake3 -DCMAKE_INSTALL_PREFIX=/usr/local/snort/extra && \
     make clean && \
