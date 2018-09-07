@@ -15,6 +15,7 @@ ENV PATH $PATH:/usr/local/snort/bin
 
 ADD etc /usr/local/snort/etc
 ADD rules /usr/local/snort/rules
+ADD custom /usr/local/snort/appid/custom
 
 # install epel-release
 RUN mkdir -p /home/snort/apps && \
@@ -70,7 +71,6 @@ RUN cd /home/snort/apps && \
 RUN cd /home/snort/apps && \
     wget https://www.snort.org/downloads/openappid/${OPENAPPID_VERSION} -O snort-openappid.tar.gz && \
     tar -zxvf snort-openappid.tar.gz && \
-    mkdir -p /usr/local/snort/appid/ && \
     cp -R odp /usr/local/snort/appid/
 
 # Cleanup.

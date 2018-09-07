@@ -56,6 +56,10 @@ $ snort -c /usr/local/snort/etc/snort.lua -r /data/pcapfile.pcap
 
 ## 修改配置和规则
 
+### 自定义应用检测器
+
+将自定义检测脚本放置在`custom/lua`文件夹中，然后重新build容器或挂载`custom`文件夹到`/usr/local/snort/appid/`文件夹中。
+
 ### 使用自定义规则
 
 配置文件和规则文件分别放置在项目中`etc`和`rules/rules`文件夹内。如需要进行修改，可clone本项目，然后对相应文件修改后，将文件夹`etc`和`rules`分别挂载到容器内的`/usr/local/snort/etc/`和`/usr/local/snort/rules/`路径下。
