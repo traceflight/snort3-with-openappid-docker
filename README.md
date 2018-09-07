@@ -62,7 +62,7 @@ $ snort -c /usr/local/snort/etc/snort.lua -r /data/pcapfile.pcap
 
 ### 使用自定义规则
 
-配置文件和规则文件分别放置在项目中`etc`和`rules/rules`文件夹内。如需要进行修改，可clone本项目，然后对相应文件修改后，将文件夹`etc`和`rules`分别挂载到容器内的`/usr/local/snort/etc/`和`/usr/local/snort/rules/`路径下。
+配置文件和规则文件分别放置在项目中`etc`和`rules/rules`文件夹内。如需要进行修改，可clone本项目，然后对相应文件修改后重新build容器，将文件夹`etc`和`rules`分别挂载到容器内的`/usr/local/snort/etc/`和`/usr/local/snort/rules/`路径下。
 
 步骤如下：
 
