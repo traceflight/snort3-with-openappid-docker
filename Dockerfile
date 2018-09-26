@@ -64,7 +64,16 @@ RUN cd /home/snort/apps && \
     make && \
     make install && \
     cp /usr/local/lib64/pkgconfig/libhs.pc /usr/lib64/pkgconfig/
-    
+   
+# install flatbuffers
+RUN cd /home/snort/apps && \
+    wget https://github.com/google/flatbuffers/archive/v1.9.0.tar.gz -O flatbuffers-1.9.0.tar.gz && \
+    tar xf flatbuffers-1.9.0.tar.gz && \
+    mkdir fb-build && cd fb-build && \
+    cmake ../flatbuffers-1.9.0 && \
+    make && \
+    make install
+   
 # install tcmalloc
 RUN cd /home/snort/apps && \
     wget https://github.com/gperftools/gperftools/releases/download/gperftools-2.7/gperftools-2.7.tar.gz && \
