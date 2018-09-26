@@ -7,15 +7,15 @@ ENV SNORT_EXTRA_VERSION 1.0.0
 ENV OPENAPPID_VERSION 8373
 
 ENV PKG_CONFIG /usr/bin/pkg-config
-ENV PKG_CONFIG_PATH /usr/share/pkgconfig:/usr/lib64/pkgconfig:/usr/local/snort/lib/pkgconfig:/usr/local/snort/lib64/pkgconfig
+ENV PKG_CONFIG_PATH /usr/share/pkgconfig:/usr/lib64/pkgconfig:/usr/local/lib/pkgconfig:/usr/local/lib64/pkgconfig
 ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/usr/lib:/usr/local/lib
-ENV LUA_PATH /usr/local/snort/include/snort/lua/\?.lua\;\;
-ENV SNORT_LUA_PATH /usr/local/snort/etc/
-ENV PATH $PATH:/usr/local/snort/bin
+ENV LUA_PATH /usr/local/include/snort/lua/\?.lua\;\;
+ENV SNORT_LUA_PATH /usr/local/etc/snort/
+ENV PATH $PATH:/usr/local/bin
 
-ADD etc /usr/local/snort/etc
-ADD rules /usr/local/snort/rules
-ADD custom /usr/local/snort/appid/custom
+ADD etc /usr/local/etc/snort/etc
+ADD rules /usr/local/etc/snort/rules
+ADD custom /usr/local/etc/snort/appid/custom
 
 # install epel-release
 RUN mkdir -p /home/snort/apps && \
@@ -97,7 +97,7 @@ RUN cd /home/snort/apps && \
 RUN cd /home/snort/apps && \
     git clone https://github.com/snort3/snort3.git && \
     cd snort3/ && \
-    ./configure_cmake.sh --prefix=/usr/local/snort --enable-tcmalloc --enable-large-pcap && \
+    ./configure_cmake.sh --prefix=/usr/local --enable-tcmalloc --enable-large-pcap && \
     cd build/ && \
     make && \
     make install
@@ -106,7 +106,7 @@ RUN cd /home/snort/apps && \
 RUN cd /home/snort/apps && \
     git clone https://github.com/snort3/snort3_extra.git && \
     cd snort3_extra && \
-    ./configure_cmake.sh --prefix=/usr/local/snort/extra && \
+    ./configure_cmake.sh --prefix=/usr/local && \
     cd build/ && \
     make && \
     make install
@@ -115,14 +115,14 @@ RUN cd /home/snort/apps && \
 RUN cd /home/snort/apps && \
     wget https://www.snort.org/downloads/community/snort3-community-rules.tar.gz -O snort3-community-rules.tar.gz && \
     tar -xvf snort3-community-rules.tar.gz && \
-    cp snort3-community-rules/snort3-community.rules /usr/local/snort/rules/rules/ && \
-    cp snort3-community-rules/sid-msg.map /usr/local/snort/rules/rules/
+    cp snort3-community-rules/snort3-community.rules /usr/local/etc/snort/rules/rules/ && \
+    cp snort3-community-rules/sid-msg.map /usr/local/etc/snort/rules/rules/
 
 # install openappid
 RUN cd /home/snort/apps && \
     wget https://www.snort.org/downloads/openappid/${OPENAPPID_VERSION} -O snort-openappid.tar.gz && \
     tar -zxvf snort-openappid.tar.gz && \
-    cp -R odp /usr/local/snort/appid/
+    cp -R odp /usr/local/etc/snort/appid/
 
 # Cleanup.
 RUN yum clean all && \
