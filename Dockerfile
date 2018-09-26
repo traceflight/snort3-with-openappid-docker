@@ -97,7 +97,7 @@ RUN cd /home/snort/apps && \
 RUN cd /home/snort/apps && \
     git clone https://github.com/snort3/snort3.git && \
     cd snort3/ && \
-    ./configure_cmake.sh --prefix=/usr/local/snort --enable-tcmalloc && \
+    ./configure_cmake.sh --prefix=/usr/local/snort --enable-tcmalloc --enable-large-pcap && \
     cd build/ && \
     make && \
     make install
