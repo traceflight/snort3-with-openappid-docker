@@ -26,7 +26,7 @@ RUN mkdir -p /home/snort/apps && \
     yum -y update
     
 # install requirements
-RUN yum -y install libnetfilter_queue-devel libunwind-devel gperftools-libs gperftools-devel sqlite-devel libdnet-devel hwloc-devel luajit-devel openssl-devel zlib-devel libpcap-devel zlib-devel lzma xz-devel bison flex && \
+RUN yum -y install libnetfilter_queue-devel libunwind-devel sqlite-devel libdnet-devel hwloc-devel luajit-devel openssl-devel zlib-devel libpcap-devel zlib-devel lzma xz-devel bison flex && \
     ldconfig
 
 # install cmake
@@ -65,10 +65,19 @@ RUN cd /home/snort/apps && \
     make install && \
     cp /usr/local/lib64/pkgconfig/libhs.pc /usr/lib64/pkgconfig/
     
+# install tcmalloc
+RUN cd /home/snort/apps && \
+    wget https://github.com/gperftools/gperftools/releases/download/gperftools-2.7/gperftools-2.7.tar.gz && \
+    tar xf gperftools-2.7.tar.gz && \
+    cd gperftools-2.7/ && \
+    ./configure --libdir=/usr/lib64 --includedir=/usr/include && \
+    make && \
+    make install
+    
 # install daq
 RUN cd /home/snort/apps && \
     wget https://www.snort.org/downloads/snortplus/daq-${DAQ_VERSION}.tar.gz -O daq-${DAQ_VERSION}.tar.gz && \
-    tar -zxvf daq-${DAQ_VERSION}.tar.gz && \
+    tar xf daq-${DAQ_VERSION}.tar.gz && \
     cd daq-${DAQ_VERSION} && \
     ./configure && \
     make && \
