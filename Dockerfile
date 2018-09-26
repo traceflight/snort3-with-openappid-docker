@@ -13,7 +13,6 @@ ENV LUA_PATH /usr/local/include/snort/lua/\?.lua\;\;
 ENV SNORT_LUA_PATH /usr/local/etc/snort/
 ENV PATH $PATH:/usr/local/bin
 
-ADD etc /usr/local/etc/snort/etc
 ADD rules /usr/local/etc/snort/rules
 ADD custom /usr/local/etc/snort/appid/custom
 
@@ -110,6 +109,9 @@ RUN cd /home/snort/apps && \
     cd build/ && \
     make && \
     make install
+
+ADD etc/snort.lua /usr/local/etc/snort/
+ADD etc/snort_defaults.lua /usr/local/etc/snort/
 
 # update community rules
 RUN cd /home/snort/apps && \

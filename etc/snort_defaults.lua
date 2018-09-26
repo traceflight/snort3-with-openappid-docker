@@ -22,13 +22,13 @@
 ---------------------------------------------------------------------------
 -- Path to your rules files (this can be a relative path)
 
-RULE_PATH = '../rules/rules'
-BUILTIN_RULE_PATH = '../rules/builtin_rules'
-PLUGIN_RULE_PATH = '../rules/so_rules'
+RULE_PATH = './rules/rules'
+BUILTIN_RULE_PATH = './rules/builtin_rules'
+PLUGIN_RULE_PATH = './rules/so_rules'
 
 -- If you are using reputation preprocessor set these
-WHITE_LIST_PATH = '../lists'
-BLACK_LIST_PATH = '../lists'
+WHITE_LIST_PATH = './lists'
+BLACK_LIST_PATH = './lists'
 
 ---------------------------------------------------------------------------
 -- default networks

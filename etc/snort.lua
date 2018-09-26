@@ -113,7 +113,7 @@ file_id = { file_rules = file_magic }
 appid =
 {
     -- appid requires this to use appids in rules
-    app_detector_dir = '/usr/local/snort/appid',
+    app_detector_dir = '/usr/local/etc/snort/appid',
 }
 
 --[[
