@@ -45,17 +45,7 @@ RUN cd /home/snort/apps && \
     ./configure --libdir=/usr/lib64 --includedir=/usr/include && \
     make && \
     make install
-    
-# install daq
-RUN cd /home/snort/apps && \
-    wget https://www.snort.org/downloads/snortplus/daq-${DAQ_VERSION}.tar.gz -O daq-${DAQ_VERSION}.tar.gz && \
-    tar -zxvf daq-${DAQ_VERSION}.tar.gz && \
-    cd daq-${DAQ_VERSION} && \
-    ./configure && \
-    make && \
-    make install && \
-    ldconfig
-    
+     
 # install ragel boost hyperscan
 RUN cd /home/snort/apps && \
     wget http://www.colm.net/files/ragel/ragel-6.10.tar.gz && \
@@ -74,7 +64,17 @@ RUN cd /home/snort/apps && \
     make && \
     make install && \
     cp /usr/local/lib64/pkgconfig/libhs.pc /usr/lib64/pkgconfig/
-
+    
+# install daq
+RUN cd /home/snort/apps && \
+    wget https://www.snort.org/downloads/snortplus/daq-${DAQ_VERSION}.tar.gz -O daq-${DAQ_VERSION}.tar.gz && \
+    tar -zxvf daq-${DAQ_VERSION}.tar.gz && \
+    cd daq-${DAQ_VERSION} && \
+    ./configure && \
+    make && \
+    make install && \
+    ldconfig
+   
 # install snort3
 RUN cd /home/snort/apps && \
     git clone https://github.com/snort3/snort3.git && \
