@@ -129,6 +129,7 @@ RUN cd /home/snort/apps && \
 # Cleanup.
 RUN yum clean all && \
     cd / && \
+    rm -rf /home/snort/apps && \
     rm -rf /var/log/* || true && \
     rm -rf /var/tmp/* && \
     rm -rf /tmp/*
