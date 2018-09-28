@@ -10,6 +10,9 @@ Dockerfile of snort3 with openappid
 |snort extra|1.0.0|
 |openappid|8373|
 |rules|community|
+|hyperscan|5.0.0|
+|flatbuffers|1.9.0|
+|tcmalloc|2.7|
 
 ## 使用方法
 
