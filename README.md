@@ -90,8 +90,8 @@ $ git clone https://github.com/traceflight/snort3-with-openappid-docker.git
 运行时挂载
 
 ```
-$ docker run -it -v `pwd`/etc/snort.lua:/usr/local/snort/etc/snort.lua \
-    -v `pwd`/rules/:/usr/local/snort/rules/ \
+$ docker run -it -v `pwd`/etc/snort.lua:/usr/local/etc/snort/snort.lua \
+    -v `pwd`/rules/:/usr/local/etc/snort/rules/ \
     traceflight/snort3-with-openappid-docker /bin/bash
 ```
 
@@ -101,8 +101,8 @@ $ docker run -it -v `pwd`/etc/snort.lua:/usr/local/snort/etc/snort.lua \
 FROM traceflight/snort3-with-openappid-docker:latest
 MAINTAINER yourname
 
-ADD etc/snort.lua /usr/local/snort/etc/
-ADD rules /usr/local/snort/rules
+ADD etc/snort.lua /usr/local/etc/snort/
+ADD rules /usr/local/etc/snort/rules
 
 RUN snort -V
 ```
